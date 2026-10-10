@@ -11,8 +11,8 @@ const siteRaw = {
   author: "杏团",
   keywords: "杏团,Almochi,个人主页",
   description: "杏团的个人主页",
-  /** 站点地址：裸域名即可，协议会自动补全 */
-  url: "almochi.cn",
+  /** 站点地址：裸域名即可，协议会自动补全。本站发布在 GitHub Pages，主机是 www.almochi.cn */
+  url: "www.almochi.cn",
   /** 界面默认语言（IETF 标记）：zh-CN | en */
   lang: "zh-CN",
   logo: {
@@ -21,9 +21,9 @@ const siteRaw = {
     apple: "/images/icon/apple-touch-icon.png",
   },
   /** 建站日期（YYYY-MM-DD 或 YYYY），留空则不显示 */
-  startDate: "2020-10-24",
-  /** 备案号，留空则不显示 */
-  icp: "豫ICP备2022018134号-1",
+  startDate: "2026-10-10",
+  /** 备案号，留空则不显示；填了会显示在页脚（如 "京ICP备00000000号-1"） */
+  icp: "",
   /**
    * 项目仓库地址（如 https://github.com/<你>/home）：留空则页脚、设置面板、信息面板里的
    * 仓库入口整体不渲染。上游致敬写在 README 里，不占界面位置。
@@ -57,6 +57,11 @@ function splitHost(host: string): { label: string; suffix: string } {
   return { label: host.slice(0, index), suffix: host.slice(index) };
 }
 
+/** 显示用主机名：去掉 www. 前缀，www.almochi.cn 在页面上依旧显示为 almochi.cn */
+function displayHost(host: string): string {
+  return host.startsWith("www.") ? host.slice(4) : host;
+}
+
 /** 归一化建站日期；与 utils/capsule 的 parseStartDate 同名但不同职责，这里解析的是配置原文 */
 function resolveStartDate(value: string): { startDate: string | null; startYear: number | null } {
   if (!value) return { startDate: null, startYear: null };
@@ -65,7 +70,7 @@ function resolveStartDate(value: string): { startDate: string | null; startYear:
 }
 
 const host = hostOf(siteRaw.url);
-const { label, suffix } = splitHost(host);
+const { label, suffix } = splitHost(displayHost(host));
 const { startDate, startYear } = resolveStartDate(siteRaw.startDate);
 
 export const siteConfig: SiteConfig = {

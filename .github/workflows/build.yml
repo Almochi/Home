@@ -1,4 +1,4 @@
-# 构建与检查：main 分支推送以及 PR 时触发
+# 构建与部署：main 分支推送时「校验 → 构建 → 发布到 GitHub Pages」；PR 时只校验
 name: Build
 
 on:
@@ -6,6 +6,15 @@ on:
     branches:
       - main
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Pages 不允许并发取消：正在发布的版本让它跑完，后面的排队
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   verify:
@@ -13,15 +22,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           version: 11
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -41,8 +50,31 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v7
         with:
           name: home-dist
           path: dist
+
+      # PR 跑到这里就够了；只有 main 的推送才需要准备 Pages 产物
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy to Pages
+    needs: verify
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
