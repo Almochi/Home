@@ -32,22 +32,38 @@ function buildContext(): WallpaperContext {
   };
 }
 
-/** 预加载：onload / onerror / 超时三选一先到先得 */
-function preload(url: string, timeoutMs: number): Promise<"ok" | "error"> {
+/** 预加载结果：status 定成败，picked 是浏览器按 srcset 真正下载的那一档（没有 srcset 时等于 url） */
+interface PreloadResult {
+  status: "ok" | "error";
+  picked: string;
+}
+
+/**
+ * 预加载：onload / onerror / 超时三选一先到先得。
+ *
+ * srcset 必须一并交给探针，原因有两条：
+ * 1. 只按 src 拉起请求时，页面上的 <img> 会复用在途请求而绕过 srcset，多分辨率清单形同虚设；
+ * 2. 探针 load 之后的 currentSrc 就是浏览器选中的那一档 —— 取色直接用它，命中同一份缓存，
+ *    不会为了算 24×24 的主色再把最大档拉一遍。
+ */
+function preload(url: string, timeoutMs: number, srcset?: string): Promise<PreloadResult> {
   return new Promise((resolve) => {
     const image = new Image();
-    const timer = window.setTimeout(() => {
+    let timer = 0;
+    const finish = (status: "ok" | "error"): void => {
+      window.clearTimeout(timer);
+      resolve({ status, picked: image.currentSrc || url });
+    };
+    timer = window.setTimeout(() => {
       image.src = "";
-      resolve("error");
+      resolve({ status: "error", picked: url });
     }, timeoutMs);
-    image.onload = () => {
-      window.clearTimeout(timer);
-      resolve("ok");
-    };
-    image.onerror = () => {
-      window.clearTimeout(timer);
-      resolve("error");
-    };
+    image.onload = () => finish("ok");
+    image.onerror = () => finish("error");
+    if (srcset) {
+      image.sizes = "100vw";
+      image.srcset = srcset;
+    }
     image.src = url;
   });
 }
@@ -73,15 +89,16 @@ export function useWallpaper() {
     const context = buildContext();
     const candidate = target.resolve(context);
     const candidateSet = target.srcset?.(context);
-    const result = await preload(candidate, wallpaperConfig.timeoutMs);
+    const result = await preload(candidate, wallpaperConfig.timeoutMs, candidateSet);
     if (current !== token) return;
 
-    if (result === "ok") {
+    if (result.status === "ok") {
       url.value = candidate;
       srcset.value = candidateSet;
       status.value = "ready";
       appActions.setWallpaperReady(true);
-      void updateSeedHue(candidate);
+      // 取色用浏览器实际选中的那一档：同一份缓存，不会为算主色再下一张最大图
+      void updateSeedHue(result.picked);
       return;
     }
 
