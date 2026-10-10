@@ -24,10 +24,9 @@ jobs:
       - name: Check out git repository
         uses: actions/checkout@v7
 
+      # 版本由 package.json 的 packageManager 决定，这里不要再写 version，否则 v6 会报「Multiple versions」
       - name: Set up pnpm
         uses: pnpm/action-setup@v6
-        with:
-          version: 11
 
       - name: Set up Node.js
         uses: actions/setup-node@v7
