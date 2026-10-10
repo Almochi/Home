@@ -1,0 +1,118 @@
+/* =============================================================================
+ * 工具层：状态层、排版角色、表面、布局助手
+ * 这里是「允许出现原子类」的唯一位置；组件请复用这些类而不是另起一套。
+ * ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+ * M3 状态层（state layer）
+ * 叠加色 --m3e-state-color 默认 on-surface，透明度遵循 M3：hover 8% / focus 10% / pressed 12%
+ * ------------------------------------------------------------------------ */
+.m3-state-layer {
+  position: relative;
+  isolation: isolate;
+  transition-property: background-color, color, border-color, box-shadow, opacity, transform;
+  transition-duration: var(--m3e-duration-short);
+  transition-timing-function: var(--m3e-easing-standard);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.m3-state-layer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--m3e-z-behind);
+  border-radius: inherit;
+  background: color-mix(
+    in oklab,
+    var(--m3e-state-color, var(--on-surface)) var(--m3e-state-hover-alpha, 8%),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity var(--m3e-duration-short) var(--m3e-easing-standard);
+  pointer-events: none;
+}
+
+.m3-state-layer:hover::before {
+  opacity: 1;
+}
+
+.m3-state-layer:focus-visible::before {
+  opacity: 1;
+  background: color-mix(
+    in oklab,
+    var(--m3e-state-color, var(--on-surface)) var(--m3e-state-focus-alpha, 10%),
+    transparent
+  );
+}
+
+.m3-state-layer:active::before {
+  opacity: 1;
+  background: color-mix(
+    in oklab,
+    var(--m3e-state-color, var(--on-surface)) var(--m3e-state-pressed-alpha, 12%),
+    transparent
+  );
+}
+
+.m3-state-layer:focus-visible {
+  outline: 2px solid var(--m3e-focus-outline, var(--primary));
+  outline-offset: 2px;
+}
+
+.m3-state-layer[disabled],
+.m3-state-layer[aria-disabled="true"] {
+  pointer-events: none;
+  opacity: 0.38;
+}
+
+/* ---------------------------------------------------------------------------
+ * 排版角色：直接引用字体阶梯令牌
+ * ------------------------------------------------------------------------ */
+.m3-type-label-small { font: var(--m3e-type-label-small); }
+.m3-type-label-medium { font: var(--m3e-type-label-medium); }
+.m3-type-label-large { font: var(--m3e-type-label-large); }
+.m3-type-body-small { font: var(--m3e-type-body-small); }
+.m3-type-body-medium { font: var(--m3e-type-body-medium); }
+.m3-type-body-large { font: var(--m3e-type-body-large); }
+.m3-type-title-small { font: var(--m3e-type-title-small); }
+.m3-type-title-medium { font: var(--m3e-type-title-medium); }
+.m3-type-title-large { font: var(--m3e-type-title-large); }
+.m3-type-headline-small { font: var(--m3e-type-headline-small); }
+.m3-type-headline-medium { font: var(--m3e-type-headline-medium); }
+.m3-type-code { font: var(--m3e-type-code); }
+
+/* 次要文字：全部基于 on-surface，保证明暗自适应 */
+.text-90 { color: color-mix(in oklab, var(--on-surface) 92%, transparent); }
+.text-75 { color: color-mix(in oklab, var(--on-surface) 78%, transparent); }
+.text-50 { color: color-mix(in oklab, var(--on-surface-variant) 92%, transparent); }
+.text-30 { color: color-mix(in oklab, var(--on-surface-variant) 72%, transparent); }
+
+/* ---------------------------------------------------------------------------
+ * 布局 / 内容助手
+ * ------------------------------------------------------------------------ */
+.text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

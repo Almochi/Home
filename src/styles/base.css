@@ -1,0 +1,167 @@
+/* =============================================================================
+ * 基础层：重置、字体声明、全局可访问性基线
+ * 只允许在这里出现全局元素选择器；组件内一律 scoped。
+ * ============================================================================= */
+
+@font-face {
+  font-family: "Pacifico";
+  src: url("/font/Pacifico-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "UnidreamLED";
+  src: url("/font/UnidreamLED.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* 引导页是整屏应用，移动端用 dvh 规避地址栏抖动 */
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background-color: var(--page-bg);
+  color: var(--on-surface);
+  font: var(--m3e-type-body-large);
+  /* 壁纸页不做整页滚动，滚动交给面板内部 */
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+  isolation: isolate;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--on-primary-container);
+}
+
+/* 键盘焦点统一由 .m3-state-layer 接管，裸可聚焦元素保底 */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* 滚动条：跟随令牌与明暗 */
+* {
+  scrollbar-color: var(--scrollbar-bg) transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: var(--shape-corner-full);
+  background-color: var(--scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-bg-hover);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: var(--scrollbar-bg-active);
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+/* 明暗切换渐变：只在切换窗口内挂到根元素上，避免常态 transition 拖慢悬停反馈。
+   时长与曲线只取动效令牌；减少动效时由下面的全局规则压成 0.01ms。 */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow, opacity;
+  transition-duration: var(--m3e-duration-medium);
+  transition-timing-function: var(--m3e-easing-standard);
+}
+
+/* 减少动态效果：系统偏好或用户在设置里手动开启 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html.motion-reduced *,
+html.motion-reduced *::before,
+html.motion-reduced *::after {
+  transition-duration: 0.01ms !important;
+  transition-delay: 0ms !important;
+  animation-duration: 0.01ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+}

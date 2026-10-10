@@ -1,0 +1,38 @@
+[
+  {
+    "name": "GitHub",
+    "icon": "github",
+    "tip": "去 Github 看看",
+    "url": "https://github.com/Almochi"
+  },
+  {
+    "name": "BiliBili",
+    "icon": "bilibili",
+    "tip": "(゜-゜)つロ 干杯 ~",
+    "url": "https://space.bilibili.com/98544142"
+  },
+  {
+    "name": "QQ",
+    "icon": "qq",
+    "tip": "有什么事吗",
+    "url": "https://res.abeim.cn/api/qq/?qq=1539250352"
+  },
+  {
+    "name": "Email",
+    "icon": "ui:mail",
+    "tip": "来封 Email ~",
+    "url": "mailto:one@imsyy.top"
+  },
+  {
+    "name": "X",
+    "icon": "x",
+    "tip": "你懂的 ~",
+    "url": "https://twitter.com/iimmsyy"
+  },
+  {
+    "name": "Telegram",
+    "icon": "telegram",
+    "tip": "你懂的 ~",
+    "url": "https://t.me/bottom_user"
+  }
+]

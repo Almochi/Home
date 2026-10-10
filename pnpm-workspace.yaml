@@ -1,0 +1,6 @@
+# pnpm 11 起，安装相关设置从 package.json 的 "pnpm" 字段迁移到这里。
+# esbuild 需要执行安装脚本（校验并链接平台二进制）；@parcel/watcher 是可选的增量监听器，
+# 本项目不使用，保持禁止执行。
+allowBuilds:
+  esbuild: true
+  "@parcel/watcher": false

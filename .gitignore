@@ -147,3 +147,11 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# —— 本项目追加（Home / 引导页）——
+# pnpm smoke 的截图产物
+screenshots/
+# 构建产物的打包文件（dist/ 已在上方忽略）
+*.zip
+# macOS
+.DS_Store

@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "note": "M3E 原子组件单一真源。每个原子必须只消费设计令牌（src/styles/tokens.css），不得出现硬编码色值/圆角/时长/字号；scripts/check-design.mjs 会校验清单与文件一一对应。",
+  "atoms": [
+    {
+      "name": "Icon",
+      "file": "Icon.vue",
+      "category": "display",
+      "note": "本地 SVG 注册表，currentColor 跟随动态配色"
+    },
+    {
+      "name": "Button",
+      "file": "Button.vue",
+      "category": "action",
+      "note": "filled/tonal/elevated/outlined/text 五种官方变体"
+    },
+    {
+      "name": "IconButton",
+      "file": "IconButton.vue",
+      "category": "action",
+      "note": "图标按钮，label 即无障碍名称"
+    },
+    {
+      "name": "Surface",
+      "file": "Surface.vue",
+      "category": "display",
+      "note": "panel/card/sunken 三种色阶容器"
+    },
+    {
+      "name": "Chip",
+      "file": "Chip.vue",
+      "category": "action",
+      "note": "标签与筛选胶囊"
+    },
+    {
+      "name": "Divider",
+      "file": "Divider.vue",
+      "category": "display",
+      "note": "1px 分隔线"
+    },
+    {
+      "name": "ProgressIndicator",
+      "file": "ProgressIndicator.vue",
+      "category": "feedback",
+      "note": "确定性线性进度"
+    },
+    {
+      "name": "LoadingIndicator",
+      "file": "LoadingIndicator.vue",
+      "category": "feedback",
+      "note": "圆形加载指示器（不确定态）"
+    },
+    {
+      "name": "Switch",
+      "file": "Switch.vue",
+      "category": "selection",
+      "note": "role=switch，键盘与读屏由原生保证"
+    },
+    {
+      "name": "Slider",
+      "file": "Slider.vue",
+      "category": "selection",
+      "note": "基于 input[type=range]"
+    },
+    {
+      "name": "SegmentedButton",
+      "file": "SegmentedButton.vue",
+      "category": "selection",
+      "note": "radiogroup 语义 + roving tabindex"
+    },
+    {
+      "name": "Tooltip",
+      "file": "Tooltip.vue",
+      "category": "overlay",
+      "note": "朴素提示气泡，aria-describedby 关联"
+    }
+  ]
+}

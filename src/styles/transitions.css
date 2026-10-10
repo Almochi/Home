@@ -1,0 +1,76 @@
+/* =============================================================================
+ * 过渡：统一由 Vue <Transition name="..."> 使用
+ * 名称一律以 m3- 前缀开头，时长与曲线只取动效令牌。
+ * ============================================================================= */
+
+.m3-fade-enter-active,
+.m3-fade-leave-active {
+  transition: opacity var(--m3e-duration-medium) var(--m3e-easing-standard);
+}
+
+.m3-fade-enter-from,
+.m3-fade-leave-to {
+  opacity: 0;
+}
+
+.m3-fade-up-enter-active,
+.m3-fade-up-leave-active {
+  transition:
+    opacity var(--m3e-duration-medium) var(--m3e-easing-emphasized-decelerate),
+    transform var(--m3e-duration-medium) var(--m3e-easing-emphasized-decelerate);
+}
+
+.m3-fade-up-enter-from,
+.m3-fade-up-leave-to {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.m3-scale-fade-enter-active {
+  transition:
+    opacity var(--m3e-duration-medium) var(--m3e-easing-emphasized-decelerate),
+    transform var(--m3e-duration-medium) var(--m3e-easing-emphasized-decelerate);
+}
+
+.m3-scale-fade-leave-active {
+  transition:
+    opacity var(--m3e-duration-short) var(--m3e-easing-emphasized-accelerate),
+    transform var(--m3e-duration-short) var(--m3e-easing-emphasized-accelerate);
+}
+
+.m3-scale-fade-enter-from,
+.m3-scale-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.92);
+}
+
+.m3-slide-end-enter-active,
+.m3-slide-end-leave-active {
+  transition: transform var(--m3e-duration-long) var(--m3e-easing-emphasized-decelerate);
+}
+
+.m3-slide-end-enter-from,
+.m3-slide-end-leave-to {
+  transform: translateX(100%);
+}
+
+.m3-slide-up-enter-active,
+.m3-slide-up-leave-active {
+  transition: transform var(--m3e-duration-long) var(--m3e-easing-emphasized-decelerate);
+}
+
+.m3-slide-up-enter-from,
+.m3-slide-up-leave-to {
+  transform: translateY(100%);
+}
+
+/* 面板内的内容切换（一言、歌词）：只淡入淡出，避免布局跳动 */
+.m3-swap-enter-active,
+.m3-swap-leave-active {
+  transition: opacity var(--m3e-duration-short) var(--m3e-easing-standard);
+}
+
+.m3-swap-enter-from,
+.m3-swap-leave-to {
+  opacity: 0;
+}

@@ -1,0 +1,43 @@
+[
+  {
+    "icon": "article",
+    "name": "博客",
+    "link": "https://blog.almochi.cn/"
+  },
+  {
+    "icon": "smart-toy",
+    "name": "大模型",
+    "link": "https://llm.almochi.cn/"
+  },
+  {
+    "icon": "cloud",
+    "name": "网盘",
+    "link": "https://cloud.almochi.cn/"
+  },
+  {
+    "icon": "neteasecloudmusic",
+    "name": "音乐",
+    "link": "https://music.almochi.cn/",
+    "action": "music"
+  },
+  {
+    "icon": "explore",
+    "name": "起始页",
+    "link": "https://nav.almochi.cn/"
+  },
+  {
+    "icon": "bookmarks",
+    "name": "网址集",
+    "link": "https://web.almochi.cn/"
+  },
+  {
+    "icon": "local-fire-department",
+    "name": "今日热榜",
+    "link": "https://hot.almochi.cn/"
+  },
+  {
+    "icon": "monitor-heart",
+    "name": "站点监测",
+    "link": "https://status.almochi.cn/"
+  }
+]

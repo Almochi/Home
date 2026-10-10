@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="%SITE_LANG%">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- %SITE_*% 由 vite.config.ts 的 siteHead 插件在构建期替换（真源：src/config/site.ts） -->
+    <link rel="icon" href="%SITE_LOGO%" />
+    <link rel="apple-touch-icon" href="%SITE_APPLE_LOGO%" />
+    <link rel="bookmark" href="%SITE_APPLE_LOGO%" />
+    <meta name="description" content="%SITE_DES%" />
+    <meta name="keywords" content="%SITE_KEYWORDS%" />
+    <meta name="author" content="%SITE_AUTHOR%" />
+    <meta name="theme-color" content="#17121b" />
+    <meta name="color-scheme" content="dark light" />
+    <title>%SITE_NAME%</title>
+    <!-- 首帧关键样式：只负责底色与配色方案，避免加载期白闪（其余样式在 tokens.css / base.css） -->
+    <style>
+      html {
+        background: #fdf7ff;
+      }
+      html.dark {
+        background: #17121b;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+    </style>
+    <!--
+      主题引导脚本：在首帧前应用持久化的明暗模式与种子色相。
+      这里只读 localStorage 中的 home:theme（结构与 src/theme/prefs.ts 一致），
+      完整的 HCT 调色板由 src/theme 在挂载前写入 --mc-* 变量。
+    -->
+    <script>
+      (function () {
+        var root = document.documentElement;
+        try {
+          var raw = localStorage.getItem("home:theme");
+          var stored = raw ? JSON.parse(raw) : {};
+          // 与 src/utils/storage 的信封格式一致：{ version, data }
+          var prefs = stored && stored.data ? stored.data : stored;
+          var mode = prefs.mode || "auto";
+          var dark =
+            mode === "dark" ||
+            (mode === "auto" &&
+              window.matchMedia &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+          root.classList.toggle("dark", !!dark);
+          root.style.colorScheme = dark ? "dark" : "light";
+          if (typeof prefs.hue === "number") root.style.setProperty("--hue", String(prefs.hue));
+          if (prefs.motion === "reduced") root.classList.add("motion-reduced");
+        } catch (error) {
+          root.classList.add("dark");
+        }
+      })();
+    </script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+    <noscript>
+      <p style="padding: 24px; font: 400 16px/1.5 system-ui, sans-serif">
+        请开启 JavaScript 后访问本站。
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
