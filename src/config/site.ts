@@ -16,8 +16,10 @@ const siteRaw = {
   /** 界面默认语言（IETF 标记）：zh-CN | en */
   lang: "zh-CN",
   logo: {
-    favicon: "/images/icon/favicon.ico",
-    avatar: "/images/avatar.webp",
+    /** 矢量图标：头像与 favicon 共用同一份，现代浏览器按任意尺寸渲染都清晰 */
+    favicon: "/images/logo.svg",
+    avatar: "/images/logo.svg",
+    /** iOS 不认 SVG 图标，这个必须留 PNG（180×180，由 src 的同一份 SVG 渲染而来） */
     apple: "/images/icon/apple-touch-icon.png",
   },
   /** 建站日期（YYYY-MM-DD 或 YYYY），留空则不显示 */
