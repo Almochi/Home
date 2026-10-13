@@ -15,19 +15,13 @@
     "name": "QQ",
     "icon": "qq",
     "tip": "有什么事吗",
-    "url": "https://wpa.qq.com/msgrd?v=3&uin=2208926664&site=qq&menu=yes"
+    "url": "https://qm.qq.com/q/Ygs3iogPuK"
   },
   {
     "name": "Email",
     "icon": "ui:mail",
     "tip": "来封 Email ~",
     "url": "mailto:almochi.world@gmail.com"
-  },
-  {
-    "name": "X",
-    "icon": "x",
-    "tip": "你懂的 ~",
-    "url": "https://twitter.com/iimmsyy"
   },
   {
     "name": "Telegram",
